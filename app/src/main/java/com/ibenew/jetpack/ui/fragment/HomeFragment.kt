@@ -1,11 +1,10 @@
-package com.ibenew.jetpack.navigation
+package com.ibenew.jetpack.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -13,8 +12,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.appbar.AppBarLayout
 import com.ibenew.jetpack.R
-import com.ibenew.jetpack.databinding.FragmentLoginBinding
-import com.ibenew.jetpack.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
 

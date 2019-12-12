@@ -1,4 +1,4 @@
-package com.ibenew.jetpack.navigation
+package com.ibenew.jetpack.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.ibenew.jetpack.R
  * Create by wuyt on 2019/12/9 17:41
  * {@link }
  */
-class WechatFragment : Fragment() {
+class ProjectFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

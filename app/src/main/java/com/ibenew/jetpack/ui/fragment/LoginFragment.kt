@@ -1,4 +1,4 @@
-package com.ibenew.jetpack.navigation
+package com.ibenew.jetpack.ui.fragment
 
 import android.os.Bundle
 import android.util.Log

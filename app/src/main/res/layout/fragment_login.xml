@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -32,10 +31,10 @@
                 android:layout_height="50dp"
                 android:backgroundTint="@color/colorPrimary"
                 android:hint="@string/hint_user_name"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:paddingStart="@dimen/db10"
+                android:paddingEnd="@dimen/db10"
                 android:text="@={vm.mUserName}"
-                android:textColor="@color/color_333333"
+                android:textColor="@color/black_33"
                 android:textSize="16sp" />
 
 
@@ -46,7 +45,7 @@
             android:id="@+id/layout_pwd"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="@dimen/db10"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_name"
@@ -62,7 +61,7 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:text="@={vm.mPassword}"
-                android:textColor="@color/color_333333"
+                android:textColor="@color/black_33"
                 android:textSize="16sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -70,12 +69,12 @@
         <Button
             android:id="@+id/btn_login"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="20dp"
+            android:layout_height="@dimen/db50"
+            android:layout_margin="@dimen/db20"
             android:background="@drawable/bg_btn_eable"
             android:text="@string/login"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp20"
             android:onClick="@{() -> vm.login()}"
             android:enabled="@{vm.mPassword.length() > 0 &amp;&amp; vm.mUserName.length() > 0}"
             app:layout_constraintLeft_toLeftOf="parent"

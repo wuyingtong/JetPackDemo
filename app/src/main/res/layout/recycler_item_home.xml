@@ -7,7 +7,7 @@
 
         <variable
             name="article"
-            type="com.ibenew.jetpack.data.Articles" />
+            type="com.ibenew.jetpack.model.Articles" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -29,7 +29,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{article.title}"
-                android:textColor="@color/color_333333"
+                android:textColor="@color/black_33"
                 android:textSize="15sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="分类："
-                android:textColor="@color/color_999999"
+                android:textColor="@color/black_99"
                 android:textSize="13sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/tv_category"
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@{article.superChapterName}"
-                android:textColor="@color/color_666666"
+                android:textColor="@color/black_66"
                 android:textSize="13sp"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintLeft_toRightOf="@id/tv_category_text"
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="时间："
-                android:textColor="@color/color_999999"
+                android:textColor="@color/black_99"
                 android:textSize="13sp"
                 app:layout_constraintLeft_toRightOf="@id/tv_category"
                 app:layout_constraintRight_toLeftOf="@id/tv_date"
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@{article.niceDate}"
-                android:textColor="@color/color_666666"
+                android:textColor="@color/black_66"
                 android:textSize="13sp"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintLeft_toRightOf="@id/tv_date_text"

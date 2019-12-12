@@ -1,4 +1,4 @@
-package com.ibenew.jetpack.data
+package com.ibenew.jetpack.model
 
 /**
  * Create by wuyt on 2019/12/10 17:35

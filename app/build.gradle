@@ -63,7 +63,7 @@ dependencies {
     implementation libs.glide
 
     // Testing dependencies
-    androidTestImplementation libs.junit
+    testImplementation libs.junit
     androidTestImplementation libs.junitExt
     androidTestImplementation libs.codeTest
     androidTestImplementation libs.espressoCore

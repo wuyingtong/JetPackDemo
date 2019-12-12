@@ -1,4 +1,4 @@
-package com.ibenew.jetpack.adapter
+package com.ibenew.jetpack.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

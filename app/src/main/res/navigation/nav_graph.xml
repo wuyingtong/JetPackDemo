@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.ibenew.jetpack.navigation.HomeFragment"
+        android:name="com.ibenew.jetpack.ui.fragment.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home">
 
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/squareFragment"
-        android:name="com.ibenew.jetpack.navigation.SquareFragment"
+        android:name="com.ibenew.jetpack.ui.fragment.SquareFragment"
         android:label="@string/square"
         tools:layout="@layout/fragment_square">
 
@@ -41,7 +41,7 @@
 
     <fragment
         android:id="@+id/wechatFragment"
-        android:name="com.ibenew.jetpack.navigation.WechatFragment"
+        android:name="com.ibenew.jetpack.ui.fragment.WechatFragment"
         android:label="@string/wechat"
         tools:layout="@layout/fragment_wechat">
 
@@ -49,7 +49,7 @@
 
     <fragment
         android:id="@+id/categoryFragment"
-        android:name="com.ibenew.jetpack.navigation.CategoryFragment"
+        android:name="com.ibenew.jetpack.ui.fragment.CategoryFragment"
         android:label="@string/category"
         tools:layout="@layout/fragment_category">
 
@@ -58,7 +58,7 @@
 
     <fragment
         android:id="@+id/projectFragment"
-        android:name="com.ibenew.jetpack.navigation.ProjectFragment"
+        android:name="com.ibenew.jetpack.ui.fragment.ProjectFragment"
         android:label="@string/project"
         tools:layout="@layout/fragment_project">
 
@@ -66,7 +66,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.ibenew.jetpack.navigation.LoginFragment"
+        android:name="com.ibenew.jetpack.ui.fragment.LoginFragment"
         android:label="@string/login"
         tools:layout="@layout/fragment_login">
 
