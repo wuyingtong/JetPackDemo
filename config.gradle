@@ -31,6 +31,8 @@ ext {
             gson            : "2.8.5",
             glide           : "4.10.0",
             multidex        : '2.0.1',
+            retrofit        : '2.7.0',
+            okhttp          : '4.2.2',
 
 
             //test
@@ -53,7 +55,7 @@ ext {
     libs = [
             //androidx
             legacyV4                : [group: 'androidx.legacy', name: 'legacy-support-v4', version: versions.legacyV4],
-            appcompat          : [group: 'androidx.appcompat', name: 'appcompat', version: versions.appcompat],
+            appcompat               : [group: 'androidx.appcompat', name: 'appcompat', version: versions.appcompat],
             ktx                     : [group: 'androidx.core', name: 'core-ktx', version: versions.ktx],
             fragment                : [group: 'androidx.fragment', name: 'fragment-ktx', version: versions.fragment],
             material                : [group: 'com.google.android.material', name: 'material', version: versions.material],
@@ -79,13 +81,8 @@ ext {
             glide                   : [group: 'com.github.bumptech.glide', name: 'glide', version: versions.glide],
             glideCompiler           : [group: 'com.github.bumptech.glide', name: 'compiler', version: versions.glide],
 
-            //retrofit2
             retrofit                : [group: 'com.squareup.retrofit2', name: 'retrofit', version: versions.retrofit],
-            retrofit_converter_gson : [group: 'com.squareup.retrofit2', name: 'converter-gson', version: versions.retrofit],
-            retrofit_adapter_rxjava2: [group: 'com.squareup.retrofit2', name: 'adapter-rxjava2', version: versions.retrofit],
-            okhttp                  : [group: 'com.squareup.okhttp3', name: 'okhttp', version: versions.okhttp3],
-            okhttp_urlconnection    : [group: 'com.squareup.okhttp', name: 'okhttp-urlconnection', version: versions.okhttp_urlconnection],
-            PersistentCookieJar     : [group: 'com.github.franmontiel', name: 'PersistentCookieJar', version: versions.PersistentCookieJar],
+            okhttp                  : [group: 'com.squareup.okhttp3', name: 'okhttp', version: versions.okhttp],
 
             //test
             junit                   : [group: 'junit', name: 'junit', version: versions.junit],

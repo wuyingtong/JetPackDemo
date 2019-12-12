@@ -61,6 +61,8 @@ dependencies {
 
     implementation libs.gson
     implementation libs.glide
+    implementation libs.retrofit
+    implementation libs.okhttp
 
     // Testing dependencies
     testImplementation libs.junit
