@@ -5,11 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.ibenew.jetpack.R
 import com.ibenew.jetpack.databinding.FragmentLoginBinding
 import com.ibenew.jetpack.viewmodel.LoginViewModel
 
@@ -31,12 +29,13 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding: FragmentLoginBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_login,
-            container,
-            false
-        )
+        val binding = FragmentLoginBinding.inflate(inflater,container,false)
+//        val binding: FragmentLoginBinding = DataBindingUtil.inflate(
+//            inflater,
+//            R.layout.fragment_login,
+//            container,
+//            false
+//        )
 
         mLoinViewModel = ViewModelProviders.of(this)[LoginViewModel::class.java]
         binding.vm = mLoinViewModel
