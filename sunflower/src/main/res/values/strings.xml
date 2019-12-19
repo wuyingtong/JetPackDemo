@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">花园flower</string>
+
+    <string name="my_garden_title">花园</string>
+    <string name="plan_list_title">植物</string>
+    <string name="garden_empty">花园空空如也</string>
+    <string name="add_plant">添加植物</string>
+    <string name="plant_date_header">植物添加日期</string>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_wechat"
+    app:startDestination="@id/wechat_fragment"
+    tools:ignore="UnusedNavigation">
+
+
+    <fragment
+        android:id="@+id/wechat_fragment"
+        android:name="com.ibenew.wanandroid.view.home.WechatFragment"
+        android:label="@string/wechat"
+        tools:layout="@layout/fragment_wechat">
+
+    </fragment>
+
+
+</navigation>

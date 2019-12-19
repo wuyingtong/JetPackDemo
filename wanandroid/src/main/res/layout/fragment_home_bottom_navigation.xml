@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.ibenew.wanandroid.view.home.HomeBottomNavigationFragment">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:visibility="gone"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:theme="@style/ToolbarTheme" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/nav_home_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nav_bottom_height"
+            android:layout_gravity="bottom"
+            app:itemBackground="@null"
+            app:itemIconSize="22dp"
+            app:itemIconTint="@drawable/navigation_text_color"
+            app:itemTextAppearanceActive="@style/BottomNavigationTextAppearance"
+            app:itemTextAppearanceInactive="@style/BottomNavigationTextAppearance"
+            app:itemTextColor="@drawable/navigation_text_color"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/menu_home_bottom_navigation" />
+
+    </LinearLayout>
+
+</layout>

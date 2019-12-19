@@ -1,0 +1,14 @@
+apply from: '../common_build.gradle'
+
+android {
+
+
+    defaultConfig {
+        applicationId "com.ibenew.sunflower"
+    }
+
+}
+
+dependencies {
+
+}

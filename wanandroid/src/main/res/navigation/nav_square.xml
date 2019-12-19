@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_square"
+    app:startDestination="@id/square_fragment"
+    tools:ignore="UnusedNavigation">
+
+
+
+    <fragment
+        android:id="@+id/square_fragment"
+        android:label="@string/square"
+        android:name="com.ibenew.wanandroid.view.home.SquareFragment"
+        tools:layout="@layout/fragment_square">
+
+    </fragment>
+
+
+</navigation>

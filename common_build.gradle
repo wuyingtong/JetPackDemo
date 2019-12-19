@@ -1,0 +1,85 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+
+android {
+    compileSdkVersion buildVersion.compileSdkVersion
+    buildToolsVersion buildVersion.buildToolsVersion
+    useLibrary 'org.apache.http.legacy'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    dataBinding {
+        enabled = true
+    }
+    defaultConfig {
+        //applicationId "com.ibenew.jetpackdemo"
+        minSdkVersion buildVersion.minSdkVersion
+        targetSdkVersion buildVersion.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    kapt libs.roomCompiler
+    kapt libs.glideCompiler
+
+    implementation libs.appcompat
+    implementation libs.ktx
+    implementation libs.fragment
+    implementation libs.material
+    implementation libs.recyclerView
+    implementation libs.constraintLayout
+    implementation libs.navigationFragment
+    implementation libs.navigationUi
+    implementation libs.viewpager
+    implementation libs.room
+    implementation libs.roomKtx
+    implementation libs.work
+    implementation libs.lifecycle
+    implementation libs.lifecycleLiveData
+    implementation libs.lifecycleViewModel
+
+    implementation libs.kotlinStdlib
+    implementation libs.coroutinesCode
+    implementation libs.coroutinesAndroid
+
+    implementation libs.gson
+    implementation libs.glide
+    implementation(libs.glideOkhttp) { exclude group: "com.squareup.okhttp:" }
+    implementation(libs.retrofit) { exclude group: "com.squareup.okhttp:" }
+    implementation(libs.retrofitGson) { exclude group: "com.squareup.okhttp:" }
+    implementation libs.okhttp
+
+    implementation libs.utilcodex
+    implementation libs.timber
+    implementation libs.logger
+
+
+    // Testing dependencies
+    testImplementation libs.junit
+    androidTestImplementation libs.junitExt
+    androidTestImplementation libs.codeTest
+    androidTestImplementation libs.espressoCore
+    androidTestImplementation libs.espressoContrib
+    androidTestImplementation libs.espressoIntents
+    androidTestImplementation libs.uiautomator
+    androidTestImplementation libs.workTest
+    androidTestImplementation libs.truth
+}
