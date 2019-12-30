@@ -52,7 +52,8 @@ dependencies {
     implementation libs.room
     implementation libs.roomKtx
     implementation libs.work
-    implementation libs.lifecycle
+    implementation libs.paging
+    implementation libs.lifecycleExtensions
     implementation libs.lifecycleLiveData
     implementation libs.lifecycleViewModel
 
@@ -66,14 +67,14 @@ dependencies {
     implementation(libs.retrofit) { exclude group: "com.squareup.okhttp:" }
     implementation(libs.retrofitGson) { exclude group: "com.squareup.okhttp:" }
     implementation libs.okhttp
+    implementation libs.okhttpLog
 
     implementation libs.utilcodex
-    implementation libs.timber
-    implementation libs.logger
 
-
+    debugImplementation libs.debugdb
     // Testing dependencies
     testImplementation libs.junit
+    testImplementation libs.pagingTest
     androidTestImplementation libs.junitExt
     androidTestImplementation libs.codeTest
     androidTestImplementation libs.espressoCore

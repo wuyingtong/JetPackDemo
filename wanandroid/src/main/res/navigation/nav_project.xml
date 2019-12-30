@@ -11,7 +11,7 @@
     <fragment
         android:id="@+id/project_fragment"
         android:label="@string/project"
-        android:name="com.ibenew.wanandroid.view.home.ProjectFragment"
+        android:name="com.ibenew.wanandroid.mvvm.view.home.ProjectFragment"
         tools:layout="@layout/fragment_project">
 
     </fragment>

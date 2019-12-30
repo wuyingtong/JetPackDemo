@@ -7,19 +7,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.ibenew.wanandroid.view.home.HomeBottomNavigationFragment">
+        tools:context=".mvvm.view.home.HomeBottomNavigationFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
-            android:visibility="gone"
             app:contentInsetStartWithNavigation="0dp"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:theme="@style/ToolbarTheme" />
 
-        <androidx.fragment.app.FragmentContainerView
+        <FrameLayout
             android:id="@+id/nav_home_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
