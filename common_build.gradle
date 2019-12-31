@@ -54,6 +54,7 @@ dependencies {
     implementation libs.work
     implementation libs.paging
     implementation libs.lifecycleExtensions
+    implementation libs.lifecycleCommnon
     implementation libs.lifecycleLiveData
     implementation libs.lifecycleViewModel
 

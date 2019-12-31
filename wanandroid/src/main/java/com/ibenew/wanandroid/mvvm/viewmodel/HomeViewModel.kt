@@ -2,13 +2,16 @@ package com.ibenew.wanandroid.mvvm.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.Transformations.switchMap
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ibenew.wanandroid.mvvm.models.data.Article
 import com.ibenew.wanandroid.mvvm.models.data.Banner
+import com.ibenew.wanandroid.mvvm.models.data.BaseListResult
 import com.ibenew.wanandroid.mvvm.models.data.BaseResult
 import com.ibenew.wanandroid.mvvm.models.repository.HomeRepository
+import kotlinx.coroutines.launch
 
 /**
  * Create by wuyt on 2019/12/18 12:14
@@ -22,13 +25,16 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
         {
             repository.getBanners()
         }
-//    private val articleList: LiveData<BaseResult<BaseListResult<Article>>> =
-//        Transformations.switchMap(refreshTrigger)
-//        {
-//            repository.getArticles(1)
-//        }
+    private val articleList: LiveData<BaseResult<BaseListResult<Article>>> = switchMap(refreshTrigger)
+        {
+            repository.getArticles(1)
+        }
 
-    val banners: LiveData<List<String>> = Transformations.map(bannerList) {
+    val articleDataSource = switchMap(refreshTrigger) {
+        repository.getArticleDataSource()
+    }
+
+    val banners: LiveData<List<String>> = map(bannerList) {
         val imagePaths = mutableListOf<String>()
         if (it.isSuccess() && !it.data.isNullOrEmpty()) {
             it.data.forEach { banner -> imagePaths.add(banner.imagePath) }
@@ -36,22 +42,22 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
 
         imagePaths
     }
-//    val articles: LiveData<List<Article>> = Transformations.map(articleList) {
-//        if (it.isSuccess() && !it.data.datas.isNullOrEmpty()) {
-//            viewModelScope.launch {
-//                repository.insertArticles(it.data.datas)
-//            }
-//            it.data.datas
-//        } else {
-//            null
-//        }
-//    }
+    val articles: LiveData<List<Article>> = map(articleList) {
+        if (it.isSuccess() && !it.data.datas.isNullOrEmpty()) {
+            viewModelScope.launch {
+                repository.insertArticles(it.data.datas)
+            }
+            it.data.datas
+        } else {
+            null
+        }
+    }
 
     fun loadData(pullToRefresh: Boolean = true) {
         refreshTrigger.value = pullToRefresh
     }
 
-    private val repoResult = map(refreshTrigger){
+    private val repoResult = map(refreshTrigger) {
         repository.getArticleList()
     }
     val posts = switchMap(repoResult) { it.pagedList }

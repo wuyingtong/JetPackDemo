@@ -2,8 +2,8 @@ package com.ibenew.wanandroid.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ToastUtils
 import com.ibenew.wanandroid.databinding.RecyclerItemHomeBinding
@@ -14,7 +14,7 @@ import com.ibenew.wanandroid.mvvm.models.data.Article
  * {@link }
  */
 class HomeAdapter :
-    ListAdapter<Article, RecyclerView.ViewHolder>(ArticleDiffCallback()) {
+    PagedListAdapter<Article, RecyclerView.ViewHolder>(ArticleDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return HomeHolder(
             RecyclerItemHomeBinding.inflate(
@@ -40,7 +40,7 @@ class HomeAdapter :
             }
         }
 
-        fun bind(item: Article) {
+        fun bind(item: Article?) {
             binding.apply {
                 article = item
                 executePendingBindings()

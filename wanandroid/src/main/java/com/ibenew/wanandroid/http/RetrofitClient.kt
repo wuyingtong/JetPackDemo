@@ -14,25 +14,20 @@ import java.util.concurrent.TimeUnit
  */
 class RetrofitClient private constructor() {
 
-    init {
-        retrofit = Retrofit.Builder()
-            .baseUrl("https://www.wanandroid.com/")
-            .client(getOkHttpClient())
-            .addCallAdapterFactory(LiveDataCallAdapterFactory())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
+    private val okHttpClient = OkHttpClient.Builder()
+        .connectTimeout(10, TimeUnit.SECONDS)
+        .writeTimeout(10, TimeUnit.SECONDS)
+        .hostnameVerifier(SSLSocketClient.hostnameVerifier)
+        .sslSocketFactory(SSLSocketClient.sslSocketFactory, SSLSocketClient.trustManager)
+        .addInterceptor(logInterceptor())
+        .build()
 
-    fun getOkHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder()
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
-            .hostnameVerifier(SSLSocketClient.hostnameVerifier)
-            .sslSocketFactory(SSLSocketClient.sslSocketFactory, SSLSocketClient.trustManager)
-            .addInterceptor(logInterceptor())
-            .build()
-
-    }
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .client(okHttpClient)
+        .addCallAdapterFactory(LiveDataCallAdapterFactory())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
     private fun logInterceptor(): HttpLoggingInterceptor {
         val logger = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
@@ -45,6 +40,8 @@ class RetrofitClient private constructor() {
         return logger
     }
 
+    fun getOkHttpClient() = okHttpClient
+
     fun <T> create(service: Class<T>): T {
         return retrofit.create(service)
     }
@@ -55,7 +52,7 @@ class RetrofitClient private constructor() {
         @Volatile
         private var instance: RetrofitClient? = null
 
-        private lateinit var retrofit: Retrofit
+        const val BASE_URL = "https://www.wanandroid.com/"
 
         fun getInstance(): RetrofitClient {
             return instance ?: synchronized(this) {

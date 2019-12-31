@@ -78,12 +78,13 @@ class HomeFragment : Fragment() {
             })
 
             //article
-            //articles.observe(viewLifecycleOwner, Observer {
-            //    adapter.submitList(it)
-            //})
+            articles.observe(viewLifecycleOwner, Observer {
+                //adapter.submitList(it)
+            })
 
-            posts.observe(viewLifecycleOwner, Observer {
+            articleDataSource.observe(viewLifecycleOwner, Observer {
                 LogUtils.d("paging：${it.size}")
+                adapter.submitList(it)
             })
         }
     }
