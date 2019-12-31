@@ -10,9 +10,9 @@ import com.ibenew.wanandroid.mvvm.models.data.Article
  * {@link }
  */
 class ArticleDataSourceFactory(private val api: WanApi) : DataSource.Factory<Int, Article>() {
-    val sourceLiveData = MutableLiveData<PageKeyedArticleDataSource>()
+    val sourceLiveData = MutableLiveData<ItemKeyedArticleDataSource>()
     override fun create(): DataSource<Int, Article> {
-        val source = PageKeyedArticleDataSource(api)
+        val source = ItemKeyedArticleDataSource(api)
         sourceLiveData.postValue(source)
         return source
     }

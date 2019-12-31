@@ -78,13 +78,22 @@ class HomeFragment : Fragment() {
             })
 
             //article
-            articles.observe(viewLifecycleOwner, Observer {
+//            articles.observe(viewLifecycleOwner, Observer {
                 //adapter.submitList(it)
+//            })
+
+//            articleDataSource.observe(viewLifecycleOwner, Observer {
+//                LogUtils.d("paging：${it.size}")
+//                adapter.submitList(it)
+//            })
+
+            repoResult.observe(viewLifecycleOwner, Observer {
+                LogUtils.d("pagedList：${it.size}")
+                adapter.submitList(it)
             })
 
-            articleDataSource.observe(viewLifecycleOwner, Observer {
-                LogUtils.d("paging：${it.size}")
-                adapter.submitList(it)
+            networkState.observe(viewLifecycleOwner, Observer {
+                LogUtils.d("netWorkState：${it.status}--${it.msg}")
             })
         }
     }

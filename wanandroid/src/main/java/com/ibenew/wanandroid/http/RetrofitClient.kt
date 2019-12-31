@@ -25,7 +25,7 @@ class RetrofitClient private constructor() {
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(okHttpClient)
-        .addCallAdapterFactory(LiveDataCallAdapterFactory())
+        //.addCallAdapterFactory(LiveDataCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
