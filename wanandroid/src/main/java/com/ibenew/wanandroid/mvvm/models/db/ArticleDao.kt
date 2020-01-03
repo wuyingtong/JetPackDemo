@@ -1,10 +1,11 @@
-package com.ibenew.wanandroid.mvvm.models.data
+package com.ibenew.wanandroid.mvvm.models.db
 
 import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.ibenew.wanandroid.mvvm.models.data.Article
 
 /**
  * Create by wuyt on 2019/12/30 13:49
@@ -16,7 +17,7 @@ interface ArticleDao {
      * 查询所有文章
      */
     @Query("SELECT * FROM t_article")
-    fun getAllArticles(): DataSource.Factory<Int,Article>
+    fun getAllArticles(): DataSource.Factory<Int, Article>
 
     /*
      * 插入文章列表

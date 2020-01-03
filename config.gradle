@@ -52,6 +52,7 @@ ext {
             timber          : "4.7.1",
             logger          : "2.2.0",
             zxing           : "3.3.3",
+            bravh           : "3.0.0-beta5",
     ]
 
     plugin = [
@@ -125,6 +126,7 @@ ext {
             // third libs
             banner             : [group: 'com.youth.banner', name: 'banner', version: versions.banner],
             zxing              : [group: 'com.google.zxing', name: 'core', version: versions.zxing],
+            bravh              : [group: 'com.github.CymChad', name: 'core', BaseRecyclerViewAdapterHelper: versions.bravh],
 
     ]
 }

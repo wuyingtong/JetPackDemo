@@ -4,25 +4,33 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.ToastUtils
+import com.google.android.material.appbar.AppBarLayout
 import com.ibenew.wanandroid.R
 import com.ibenew.wanandroid.adapter.HomeAdapter
 import com.ibenew.wanandroid.databinding.FragmentHomeBinding
 import com.ibenew.wanandroid.extension.GlideImageLoader
+import com.ibenew.wanandroid.http.NetworkState
+import com.ibenew.wanandroid.http.Status
 import com.ibenew.wanandroid.mvvm.viewmodel.HomeViewModel
 import com.ibenew.wanandroid.utils.InjectorUtils
 import com.youth.banner.BannerConfig
 import com.youth.banner.Transformer
 
+
 /**
  * Create by wuyt on 2019/12/18 9:39
  * {@link }
  */
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
     companion object {
         private val TAG = HomeFragment::class.java.simpleName
     }
@@ -43,15 +51,15 @@ class HomeFragment : Fragment() {
 
         //BarUtils.setStatusBarColor(binding.homeHeader.statusBar, Color.argb(0, 0, 0, 0))
 
+        val adapter = HomeAdapter()
+
         binding = DataBindingUtil.inflate<FragmentHomeBinding>(
             inflater,
             R.layout.fragment_home,
             container,
             false
         ).apply {
-            viewModel.loadData(true)
 
-            val adapter = HomeAdapter()
             recyclerView.adapter = adapter
             recyclerView.setHasFixedSize(true)
             homeHeader.banner
@@ -63,8 +71,12 @@ class HomeFragment : Fragment() {
                 .setOnBannerListener {
 
                 }
-            subscribeUi(adapter)
         }
+
+        viewModel.refresh()
+
+        subscribeUi(adapter)
+
 
         return binding.root
     }
@@ -73,19 +85,22 @@ class HomeFragment : Fragment() {
         viewModel.apply {
             //banner
             banners.observe(viewLifecycleOwner, Observer {
-                LogUtils.d("banner size :${it.size}")
-                binding.homeHeader.banner.setImages(it).start()//图片集合
+                val imagePaths = mutableListOf<String>()
+                it?.data?.let { banners ->
+                    banners.forEach { banner -> imagePaths.add(banner.imagePath) }
+                }
+                try {
+                    binding.homeHeader.banner.setImages(imagePaths).start()//图片集合
+                } catch (e: ArithmeticException) {
+
+                }
             })
 
-            //article
-//            articles.observe(viewLifecycleOwner, Observer {
-                //adapter.submitList(it)
-//            })
-
-//            articleDataSource.observe(viewLifecycleOwner, Observer {
-//                LogUtils.d("paging：${it.size}")
-//                adapter.submitList(it)
-//            })
+            articles.observe(viewLifecycleOwner, Observer {
+                it?.data?.datas?.let {
+                    adapter.submitList(it)
+                }
+            })
 
             repoResult.observe(viewLifecycleOwner, Observer {
                 LogUtils.d("pagedList：${it.size}")
@@ -95,16 +110,45 @@ class HomeFragment : Fragment() {
             networkState.observe(viewLifecycleOwner, Observer {
                 LogUtils.d("netWorkState：${it.status}--${it.msg}")
             })
+
+            refreshState.observe(viewLifecycleOwner, Observer {
+                LogUtils.d("refreshState：${it.status}--${it.msg}")
+                binding.swipeRefresh.isRefreshing = it == NetworkState.LOADING
+                if (it.status == Status.FAILED) {
+                    ToastUtils.showShort(it.msg)
+                }
+            })
+
+            binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
         }
+
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                binding.fab.isVisible = layoutManager.findFirstVisibleItemPosition() > 5
+            }
+        })
+
+        binding.fab.setOnClickListener { binding.recyclerView.smoothScrollToPosition(0) }
     }
 
     override fun onStart() {
         super.onStart()
         binding.homeHeader.banner.startAutoPlay()
+        binding.appBar.addOnOffsetChangedListener(this)
     }
 
     override fun onStop() {
         super.onStop()
         binding.homeHeader.banner.stopAutoPlay()
+        binding.appBar.removeOnOffsetChangedListener(this)
+    }
+
+    /*
+     * 监听AppBarLayout的伸缩事件，当AppBar展开时开启下拉刷新,收缩时禁用下拉刷新
+     */
+    override fun onOffsetChanged(p0: AppBarLayout?, p1: Int) {
+        binding.swipeRefresh.isEnabled = p1 == 0
     }
 }

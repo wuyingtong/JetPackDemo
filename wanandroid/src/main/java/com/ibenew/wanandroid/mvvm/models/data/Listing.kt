@@ -2,7 +2,7 @@ package com.ibenew.wanandroid.mvvm.models.data
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.ibenew.wanandroid.mvvm.models.repository.NetworkState
+import com.ibenew.wanandroid.http.NetworkState
 
 /**
  * Create by wuyt on 2019/12/30 16:53

@@ -5,6 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.Transformations.switchMap
 import androidx.lifecycle.ViewModel
+import com.ibenew.wanandroid.http.BaseListResponse
+import com.ibenew.wanandroid.mvvm.models.data.Article
+import com.ibenew.wanandroid.mvvm.models.data.Banner
+import com.ibenew.wanandroid.mvvm.models.data.Resource
 import com.ibenew.wanandroid.mvvm.models.repository.HomeRepository
 
 /**
@@ -14,47 +18,22 @@ import com.ibenew.wanandroid.mvvm.models.repository.HomeRepository
 class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
 
     private val refreshTrigger = MutableLiveData<Boolean>()
-//    private val bannerList: LiveData<BaseResult<List<Banner>>> =
-//        switchMap(refreshTrigger)
-//        {
-//            repository.getBanners()
-//        }
-//    private val articleList: LiveData<BaseResult<BaseListResult<Article>>> =
-//        switchMap(refreshTrigger)
-//        {
-//            repository.getArticles(1)
-//        }
+    val banners: LiveData<Resource<List<Banner>>> =
+        switchMap(refreshTrigger) { repository.getBanner() }
 
-    val articleDataSource = switchMap(refreshTrigger) {
-        repository.getArticleDataSource()
-    }
+    val articles: LiveData<Resource<BaseListResponse<Article>>> =
+        switchMap(refreshTrigger) { repository.getArticle(0) }
 
-    val banners: LiveData<List<String>> = repository.getBanners()
-//    val articles: LiveData<List<Article>> = map(articleList) {
-//        if (it.isSuccess() && !it.data.datas.isNullOrEmpty()) {
-//            viewModelScope.launch {
-//                repository.insertArticles(it.data.datas)
-//            }
-//            it.data.datas
-//        } else {
-//            null
-//        }
-//    }
-
-    fun loadData(pullToRefresh: Boolean = true) {
-        refreshTrigger.value = pullToRefresh
-    }
-
-    private val repoArticle = map(refreshTrigger) { repository.getArticleFromNet() }
+    private val repoArticle = map(refreshTrigger) { repository.getArticleFromPaging() }
     val repoResult = switchMap(repoArticle) { it.pagedList }
     val networkState = switchMap(repoArticle) { it.networkState }
     val refreshState = switchMap(repoArticle) { it.refreshState }
 
     fun refresh() {
         repoArticle.value?.refresh?.invoke()
+        refreshTrigger.value = true
     }
 
     fun retry() = repoArticle.value?.retry?.invoke()
-
 
 }

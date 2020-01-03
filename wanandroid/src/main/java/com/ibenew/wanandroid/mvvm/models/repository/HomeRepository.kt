@@ -2,20 +2,17 @@ package com.ibenew.wanandroid.mvvm.models.repository
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.Config
-import androidx.paging.LivePagedListBuilder
 import androidx.paging.toLiveData
-import com.blankj.utilcode.util.LogUtils
-import com.ibenew.wanandroid.http.RetrofitClient
-import com.ibenew.wanandroid.http.WanApi
-import com.ibenew.wanandroid.mvvm.models.data.*
+import com.ibenew.wanandroid.http.*
+import com.ibenew.wanandroid.mvvm.models.data.Article
+import com.ibenew.wanandroid.mvvm.models.data.Banner
+import com.ibenew.wanandroid.mvvm.models.data.Listing
+import com.ibenew.wanandroid.mvvm.models.data.Resource
+import com.ibenew.wanandroid.mvvm.models.db.ArticleDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 /**
  * Create by wuyt on 2019/12/18 12:12
@@ -25,64 +22,24 @@ class HomeRepository(private val articleDao: ArticleDao) {
 
     private val api = RetrofitClient.getInstance().create(WanApi::class.java)
 
-
-    fun getBanners(): LiveData<List<String>> {
-        val banner = MutableLiveData<List<String>>()
-        api.getBanners().enqueue(object : Callback<BaseResult<List<Banner>>> {
-            override fun onFailure(call: Call<BaseResult<List<Banner>>>, t: Throwable) {
-                LogUtils.d("${t.message}")
+    fun getBanner(): LiveData<Resource<List<Banner>>> =
+        object : NetworkBoundResource<List<Banner>>() {
+            override fun createCall(): LiveData<BaseResponse<List<Banner>>> {
+                return api.getBanners()
             }
+        }.asLiveData()
 
-            override fun onResponse(
-                call: Call<BaseResult<List<Banner>>>,
-                response: Response<BaseResult<List<Banner>>>
-            ) {
-                if (response.isSuccessful && !response.body()?.data.isNullOrEmpty()) {
-                    val data = response.body()!!.data
-                    val imagePaths = mutableListOf<String>()
-                    data.forEach { imagePaths.add(it.imagePath) }
-
-                    banner.value = imagePaths
-                }
+    fun getArticle(page: Int): LiveData<Resource<BaseListResponse<Article>>> =
+        object : NetworkBoundResource<BaseListResponse<Article>>() {
+            override fun createCall(): LiveData<BaseResponse<BaseListResponse<Article>>> {
+                return api.getArticles(page)
             }
-        })
-
-        return banner
-    }
-
-//    fun getArticles(page: Int): LiveData<BaseResult<BaseListResult<Article>>> =
-//        api.getArticles(page)
-
-    fun getArticleDataSource() = articleDao.getAllArticles().toLiveData(Config(pageSize = 5))
-
-    //DB
-    fun getArticleList(): Listing<Article> {
-        val sourceFactory = ArticleDataSourceFactory(api)
-        val livePagedList = LivePagedListBuilder<Int, Article>(
-            sourceFactory, Config(pageSize = 1, initialLoadSizeHint = 1 * 2)
-        ).build()
-        val refreshState =
-            Transformations.switchMap(sourceFactory.sourceLiveData) { it.initialLoad }
-        return Listing(
-            pagedList = livePagedList,
-            networkState = Transformations.switchMap(sourceFactory.sourceLiveData) {
-                it.networkState
-            },
-            retry = {
-                sourceFactory.sourceLiveData.value?.retryAllFailed()
-            },
-            refresh = {
-                sourceFactory.sourceLiveData.value?.invalidate()
-            },
-            refreshState = refreshState
-        )
-    }
+        }.asLiveData()
 
     //network
     @MainThread
-    fun getArticleFromNet(): Listing<Article> {
+    fun getArticleFromPaging(): Listing<Article> {
         val sourceFactory = ArticleDataSourceFactory(api)
-
         // We use toLiveData Kotlin ext. function here, you could also use LivePagedListBuilder
         val livePagedList = sourceFactory.toLiveData(
             // we use Config Kotlin ext. function here, could also use PagedList.Config.Builder

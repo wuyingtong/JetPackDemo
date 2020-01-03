@@ -8,7 +8,7 @@ import com.blankj.utilcode.util.Utils
  * Create by wuyt on 2019/12/19 11:22
  * {@link }
  */
-class App : Application() {
+class WanApp : Application() {
     override fun onCreate() {
         super.onCreate()
 

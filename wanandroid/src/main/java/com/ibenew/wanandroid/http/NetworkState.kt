@@ -1,4 +1,4 @@
-package com.ibenew.wanandroid.mvvm.models.repository
+package com.ibenew.wanandroid.http
 
 /**
  * Create by wuyt on 2019/12/30 15:00
@@ -15,8 +15,13 @@ data class NetworkState private constructor(
     val status: Status,
     val msg: String? = null) {
     companion object {
-        val LOADED = NetworkState(Status.SUCCESS)
-        val LOADING = NetworkState(Status.RUNNING)
-        fun error(msg: String?) = NetworkState(Status.FAILED, msg)
+        val LOADED =
+            NetworkState(Status.SUCCESS)
+        val LOADING =
+            NetworkState(Status.RUNNING)
+        fun error(msg: String?) = NetworkState(
+            Status.FAILED,
+            msg
+        )
     }
 }

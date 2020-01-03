@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ibenew.wanandroid.mvvm.view.login.LoginViewModel" />
+    </data>
+
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/login_account_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="@dimen/db50"
+            android:gravity="center_vertical">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_login_account"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/db20"
+                android:layout_marginRight="@dimen/db20"
+                android:completionThreshold="1"
+                android:drawablePadding="@dimen/db10"
+                android:gravity="center_vertical"
+                android:hint="请输入账号"
+                android:paddingStart="@dimen/db5"
+                android:paddingEnd="@dimen/db20"
+                android:singleLine="true"
+                android:text="@={viewModel.username}"
+                android:textColorHint="@color/text_hint"
+                android:textSize="@dimen/sp18" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/login_pwd_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="@dimen/db10"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/text_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_login_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/db20"
+                android:layout_marginRight="@dimen/db20"
+                android:drawablePadding="@dimen/db15"
+                android:hint="请输入密码"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:paddingStart="@dimen/db5"
+                android:paddingEnd="@dimen/db20"
+                android:singleLine="true"
+                android:text="@={viewModel.userpwd}"
+                android:textColorHint="@color/text_hint"
+                android:textSize="@dimen/sp18" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/cb_login_save_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/db20"
+            android:layout_marginTop="@dimen/db10"
+            android:text="保存密码"
+            android:textColor="@color/black_33" />
+
+        <Button
+            android:id="@+id/btn_login_start"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/db50"
+            android:layout_marginTop="@dimen/db20"
+            android:text="登录" />
+
+    </LinearLayout>
+
+</layout>

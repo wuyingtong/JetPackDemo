@@ -2,8 +2,7 @@ package com.ibenew.wanandroid.mvvm.models.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
-import androidx.paging.ItemKeyedDataSource
+import androidx.paging.PageKeyedDataSource
 import com.blankj.utilcode.util.LogUtils
 import com.ibenew.wanandroid.http.*
 import com.ibenew.wanandroid.mvvm.models.data.Article
@@ -12,13 +11,11 @@ import java.util.concurrent.Executors
 /**
  * Create by wuyt on 2019/12/30 15:22
  * {@link }
- * 如果通过键值请求后端数据；
- * 例如我们需要获取在某个特定日期起Github的前100项代码提交记录，
- * 该日期将成为DataSource的键,ItemKeyedDataSource允许自定义如何加载初始页；
- * 该场景多用于评论信息等类似请求
+ * 如果后端API返回数据是分页之后的，可以使用它；
+ * 例如：官方Demo中GitHub API中的SearchRespositories就可以返回分页数据，
+ * 我们在GitHub API的请求中制定查询关键字和想要的哪一页，同时也可以指明每个页面的项数。
  */
-class ItemKeyedArticleDataSource(private val api: WanApi) : ItemKeyedDataSource<Int, Article>() {
-    private var pageNum = 0
+class PageKeyedArticleDataSource(private val api: WanApi) : PageKeyedDataSource<Int, Article>() {
 
     // keep a function reference for the retry event
     private var retry: (() -> Any)? = null
@@ -39,58 +36,46 @@ class ItemKeyedArticleDataSource(private val api: WanApi) : ItemKeyedDataSource<
         }
     }
 
-
-    override fun getKey(item: Article): Int = item.id
-
-    // 加载上一页数据
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Article>) {
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Article>) {
         // ignored, since we only ever append to our initial load
     }
 
-    // 初始化第一页数据
     override fun loadInitial(
         params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Article>
+        callback: LoadInitialCallback<Int, Article>
     ) {
-        LogUtils.d("paging loadInitial")
         // update network states.
         // we also provide an initial load state to the listeners so that the UI can know when the
         // very first list is loaded.
         networkState.postValue(NetworkState.LOADING)
         initialLoad.postValue(NetworkState.LOADING)
-        api.getArticles(0).also {
-            LogUtils.d("paging ${it.value}")
-        }
+
         val response = object : NetworkBoundResource<BaseListResponse<Article>>() {
             override fun createCall(): LiveData<BaseResponse<BaseListResponse<Article>>> {
                 return api.getArticles(0)
             }
         }.asLiveData()
-
         // triggered by a refresh, we better execute sync
-        response.map {
-            it.data?.let { result ->
+        LogUtils.d("Paging：${response.value?.data?.datas?.size}")
+        response.observeForever {
+            it.data?.let {result->
                 retry = null
                 networkState.postValue(NetworkState.LOADED)
                 initialLoad.postValue(NetworkState.LOADED)
                 // 对应后台返回数据中的上一页，下一页
-                callback.onResult(result.datas ?: emptyList(), result.curPage, result.curPage)
+                callback.onResult(result.datas?: emptyList(),result.curPage,result.curPage)
             }
         }
     }
 
-    // 加载下一页数据
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Article>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Article>) {
         // set network value to loading.
         networkState.postValue(NetworkState.LOADING)
         // even though we are using async retrofit API here, we could also use sync
         // it is just different to show that the callback can be called async.
-//        api.getArticles(++pageNum).enqueue(
+//        api.getArticles(params.requestedLoadSize).enqueue(
 //            object : Callback<BaseResult<BaseListResult<Article>>> {
-//                override fun onFailure(
-//                    call: Call<BaseResult<BaseListResult<Article>>>,
-//                    t: Throwable
-//                ) {
+//                override fun onFailure(call: Call<BaseResult<BaseListResult<Article>>>, t: Throwable) {
 //                    // keep a lambda for future retry
 //                    retry = {
 //                        loadAfter(params, callback)
@@ -101,21 +86,21 @@ class ItemKeyedArticleDataSource(private val api: WanApi) : ItemKeyedDataSource<
 //
 //                override fun onResponse(
 //                    call: Call<BaseResult<BaseListResult<Article>>>,
-//                    response: Response<BaseResult<BaseListResult<Article>>>
-//                ) {
+//                    response: Response<BaseResult<BaseListResult<Article>>>) {
 //                    if (response.isSuccessful) {
-//                        val items = response.body()?.data?.datas ?: emptyList()
+//                        val result = response.body()?.data
+//                        val items = result?.datas?: emptyList()
 //                        // clear retry since last request succeeded
 //                        retry = null
-//                        callback.onResult(items)
+//                        // 对应后台返回数据中的下一页
+//                        callback.onResult(items,result?.curPage)
 //                        networkState.postValue(NetworkState.LOADED)
 //                    } else {
 //                        retry = {
 //                            loadAfter(params, callback)
 //                        }
 //                        networkState.postValue(
-//                            NetworkState.error("error code: ${response.code()}")
-//                        )
+//                            NetworkState.error("error code: ${response.code()}"))
 //                    }
 //                }
 //            }

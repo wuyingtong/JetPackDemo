@@ -2,8 +2,8 @@ package com.ibenew.wanandroid.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ToastUtils
 import com.ibenew.wanandroid.databinding.RecyclerItemHomeBinding
@@ -11,10 +11,10 @@ import com.ibenew.wanandroid.mvvm.models.data.Article
 
 /**
  * Create by wuyt on 2019/12/30 11:27
- * {@link }
+ * {@link } PagedListAdapter
  */
 class HomeAdapter :
-    PagedListAdapter<Article, RecyclerView.ViewHolder>(ArticleDiffCallback()) {
+    ListAdapter<Article, RecyclerView.ViewHolder>(ArticleDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return HomeHolder(
             RecyclerItemHomeBinding.inflate(

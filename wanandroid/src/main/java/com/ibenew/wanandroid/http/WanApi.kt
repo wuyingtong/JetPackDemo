@@ -1,10 +1,8 @@
 package com.ibenew.wanandroid.http
 
+import androidx.lifecycle.LiveData
 import com.ibenew.wanandroid.mvvm.models.data.Article
 import com.ibenew.wanandroid.mvvm.models.data.Banner
-import com.ibenew.wanandroid.mvvm.models.data.BaseListResult
-import com.ibenew.wanandroid.mvvm.models.data.BaseResult
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -13,10 +11,12 @@ import retrofit2.http.Path
  * {@link }
  */
 interface WanApi {
+
+
     @GET("banner/json")
-    fun getBanners(): Call<BaseResult<List<Banner>>>
+    fun getBanners(): LiveData<BaseResponse<List<Banner>>>
 
     @GET("article/list/{page}/json")
-    fun getArticles(@Path("page") page: Int): Call<BaseResult<BaseListResult<Article>>>
+    fun getArticles(@Path("page") page: Int): LiveData<BaseResponse<BaseListResponse<Article>>>
 
 }

@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ibenew.wanandroid.mvvm.models.data.Article
-import com.ibenew.wanandroid.mvvm.models.data.ArticleDao
+import com.ibenew.wanandroid.mvvm.models.db.ArticleDao
 import com.ibenew.wanandroid.utils.DATABASE_NAME
 
 /**
